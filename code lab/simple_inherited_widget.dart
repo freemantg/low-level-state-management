@@ -32,18 +32,18 @@ class AppState {
   }
 }
 
-class AppStateScope extends InheritedWidget {
-  const AppStateScope(this.data, {Key? key, required Widget child})
+class AppStateProvider extends InheritedWidget {
+  const AppStateProvider(this.data, {Key? key, required Widget child})
       : super(key: key, child: child);
 
   final AppState data;
 
   static AppState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AppStateScope>()!.data;
+    return context.dependOnInheritedWidgetOfExactType<AppStateProvider>()!.data;
   }
 
   @override
-  bool updateShouldNotify(AppStateScope oldWidget) {
+  bool updateShouldNotify(AppStateProvider oldWidget) {
     return data != oldWidget.data;
   }
 }
@@ -102,7 +102,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AppStateScope(
+    return AppStateProvider(
       _data,
       child: widget.child,
     );
@@ -190,7 +190,7 @@ class ShoppingCartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Set<String> itemsInCart = AppStateScope.of(context).itemsInCart;
+    final Set<String> itemsInCart = AppStateProvider.of(context).itemsInCart;
     final bool hasPurchase = itemsInCart.isNotEmpty;
     return Stack(
       alignment: Alignment.center,
@@ -237,7 +237,7 @@ class ProductListWidget extends StatelessWidget {
   Widget _buildProductTile(String id, BuildContext context) {
     return ProductTile(
       product: Server.getProductById(id),
-      purchased: AppStateScope.of(context).itemsInCart.contains(id),
+      purchased: AppStateProvider.of(context).itemsInCart.contains(id),
       onAddToCart: () => _handleAddToCart(id, context),
       onRemoveFromCart: () => _handleRemoveFromCart(id, context),
     );
@@ -245,7 +245,7 @@ class ProductListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> productList = AppStateScope.of(context).productList;
+    final List<String> productList = AppStateProvider.of(context).productList;
     return Column(
       children:
           productList.map((id) => _buildProductTile(id, context)).toList(),
