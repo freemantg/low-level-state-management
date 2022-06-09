@@ -22,8 +22,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Welcome'),
         actions: <Widget>[
-          FlatButton(
-            child: Text('Logout', style: TextStyle(fontSize: 17.0, color: Colors.white)),
+          ElevatedButton(
+            child: Text('Logout',
+                style: TextStyle(fontSize: 17.0, color: Colors.white)),
             onPressed: () => _signOut(context),
           )
         ],
